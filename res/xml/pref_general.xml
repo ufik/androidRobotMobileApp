@@ -1,0 +1,20 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="@string/title_activity_settings">
+     <PreferenceCategory android:title="@string/title_category_video">
+         <ListPreference android:entryValues="@array/pref_video_type_list_values" android:entries="@array/pref_video_type_list_titles" android:key="pref_video_type" android:defaultValue="0" android:title="@string/title_stream_type"/>
+   		 <ListPreference android:entryValues="@array/pref_fps_list_titles" android:title="@string/title_fps" android:key="pref_fps" android:entries="@array/pref_fps_list_titles"/>
+   		 <ListPreference android:key="pref_transfer_type" android:entries="@array/pref_transfer_type_list_titles" android:entryValues="@array/pref_transfer_type_list_values" android:title="@string/title_transfer_type"/>
+   		 <ListPreference android:key="pref_camera_size" android:title="@string/title_camera_size"/>
+   		 <ListPreference android:title="@string/title_camera_type" android:entries="@array/pref_camera_type_list_titles" android:entryValues="@array/pref_camera_type_list_values" android:key="pref_camera_type"/>
+     </PreferenceCategory>
+     
+     <PreferenceCategory android:title="@string/title_category_bluetooth">
+         <SwitchPreference android:title="@string/title_auto_connect" android:key="pref_auto_connect" android:summaryOn="@string/title_auto_connect_on" android:summaryOff="@string/title_auto_connect_off" android:switchTextOn="@string/title_auto_connect_icon" android:switchTextOff="@string/title_auto_connect_icon"/>
+         
+     </PreferenceCategory>
+     
+     <PreferenceCategory android:title="@string/title_category_others">
+         <Preference android:title="@string/title_about" android:key="about" />
+         <Preference android:title="@string/title_license" android:key="license" />
+     </PreferenceCategory>
+     
+</PreferenceScreen>

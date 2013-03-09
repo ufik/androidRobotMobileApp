@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, AndroidRobotMobileActivity!</string>
-    <string name="app_name">AndroidRobotMobile</string>
+    <string name="app_name">Android Robot</string>
     <string name="bonded_devices">Spárovaná zařízení</string>
-    <string name="search_for_devices">Vyhledat</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="search_for_devices">Vyhledat zařízení</string>
+    <string name="title_activity_main">Android Robot</string>
     <string name="nxt_connection_failed">Spojení s NXT nebylo navázáno.</string>
     <string name="nxt_connection_success">Spojení s NXT navázáno.</string>
+    <string name="robot_connection_error">Chyba spojení.</string>
+    
+    <string name="loading_nxt_title">NXT robot</string>
+    <string name="loading_nxt_text">Probíhá připojení...</string>
+    
+    <string name="loading_bt_discovery_title">Bluetooth</string>
+    <string name="loading_bt_discovery_text">Probíhá vyhledávání...</string>
 
+    <string name="menu_connect">Připojit</string>
+    <string name="menu_disconnect">Odpojit</string>
+    <string name="menu_settings">Nastavení</string>
+    <string name="menu_exit">Ukončit</string>
+    
 </resources>

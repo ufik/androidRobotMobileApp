@@ -8,39 +8,74 @@
 package cz.uhk.fim;
 
 public final class R {
+    public static final class array {
+        public static final int pref_camera_type_list_titles=0x7f060005;
+        public static final int pref_camera_type_list_values=0x7f060006;
+        public static final int pref_fps_list_titles=0x7f060002;
+        public static final int pref_transfer_type_list_titles=0x7f060003;
+        public static final int pref_transfer_type_list_values=0x7f060004;
+        public static final int pref_video_type_list_titles=0x7f060000;
+        public static final int pref_video_type_list_values=0x7f060001;
+    }
     public static final class attr {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int btDevices=0x7f060008;
-        public static final int button1=0x7f060002;
-        public static final int button2=0x7f060003;
-        public static final int button3=0x7f060004;
-        public static final int button4=0x7f060005;
-        public static final int button5=0x7f060001;
-        public static final int camera_preview=0x7f060000;
-        public static final int connection_status=0x7f060006;
-        public static final int imageView1=0x7f060007;
-        public static final int menu_settings=0x7f060009;
+        public static final int btDevices=0x7f080007;
+        public static final int button1=0x7f080001;
+        public static final int button2=0x7f080002;
+        public static final int button3=0x7f080003;
+        public static final int button4=0x7f080004;
+        public static final int camera_preview=0x7f080000;
+        public static final int connection_status=0x7f080005;
+        public static final int menu_connect=0x7f080008;
+        public static final int menu_disconnect=0x7f080009;
+        public static final int menu_exit=0x7f08000b;
+        public static final int menu_settings=0x7f08000a;
+        public static final int search=0x7f080006;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int device=0x7f030001;
     }
     public static final class menu {
-        public static final int activity_main=0x7f050000;
+        public static final int activity_main=0x7f070000;
     }
     public static final class string {
-        public static final int app_name=0x7f040001;
-        public static final int bonded_devices=0x7f040002;
-        public static final int hello=0x7f040000;
-        public static final int hello_world=0x7f040004;
-        public static final int menu_settings=0x7f040005;
-        public static final int nxt_connection_failed=0x7f040007;
-        public static final int nxt_connection_success=0x7f040008;
-        public static final int search_for_devices=0x7f040003;
-        public static final int title_activity_main=0x7f040006;
+        public static final int app_name=0x7f050000;
+        public static final int bonded_devices=0x7f050001;
+        public static final int loading_bt_discovery_text=0x7f05000a;
+        public static final int loading_bt_discovery_title=0x7f050009;
+        public static final int loading_nxt_text=0x7f050008;
+        public static final int loading_nxt_title=0x7f050007;
+        public static final int menu_connect=0x7f05000b;
+        public static final int menu_disconnect=0x7f05000c;
+        public static final int menu_exit=0x7f05000e;
+        public static final int menu_settings=0x7f05000d;
+        public static final int nxt_connection_failed=0x7f050004;
+        public static final int nxt_connection_success=0x7f050005;
+        public static final int robot_connection_error=0x7f050006;
+        public static final int search_for_devices=0x7f050002;
+        public static final int title_about=0x7f050013;
+        public static final int title_activity_main=0x7f050003;
+        public static final int title_activity_settings=0x7f05000f;
+        public static final int title_auto_connect=0x7f050015;
+        public static final int title_auto_connect_icon=0x7f050016;
+        public static final int title_auto_connect_off=0x7f050018;
+        public static final int title_auto_connect_on=0x7f050017;
+        public static final int title_camera_size=0x7f050019;
+        public static final int title_camera_type=0x7f05001d;
+        public static final int title_category_bluetooth=0x7f050012;
+        public static final int title_category_others=0x7f050011;
+        public static final int title_category_video=0x7f050010;
+        public static final int title_fps=0x7f05001b;
+        public static final int title_license=0x7f050014;
+        public static final int title_stream_type=0x7f05001a;
+        public static final int title_transfer_type=0x7f05001c;
+    }
+    public static final class xml {
+        public static final int pref_general=0x7f040000;
     }
 }

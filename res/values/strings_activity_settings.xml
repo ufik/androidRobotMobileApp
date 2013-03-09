@@ -1,0 +1,56 @@
+<resources>
+
+    <string name="title_activity_settings">Nastavení</string>
+	<string name="title_category_video">Video</string>
+	<string name="title_category_others">Ostatní</string>
+	<string name="title_category_bluetooth">Bluetooth</string>
+    
+	<string name="title_about">O programu</string>
+	<string name="title_license">Licence</string>
+	<string name="title_auto_connect">Automatické připojení</string>
+		<string name="title_auto_connect_icon"></string>
+		<string name="title_auto_connect_on">Zapnuto</string>
+		<string name="title_auto_connect_off">Vypnuto</string>
+	
+		<string name="title_camera_size">Rozlišení</string>
+		
+    <string name="title_stream_type">Typ videa</string>
+    <string-array name="pref_video_type_list_titles">
+        <item>JPEG stream</item>
+        <item>MPEG4 stream</item>
+    </string-array>
+    <string-array name="pref_video_type_list_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    
+    <string name="title_fps">FPS (snímků za vteřinu)</string>
+    <string-array name="pref_fps_list_titles">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
+    
+    <string name="title_transfer_type">Typ přenosu</string>
+    <string-array name="pref_transfer_type_list_titles">
+        <item>UDP</item>
+        <item>TCP</item>
+    </string-array>
+    <string-array name="pref_transfer_type_list_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    
+    <string name="title_camera_type">Kamera</string>
+    <string-array name="pref_camera_type_list_titles">
+        <item>Zadní</item>
+        <item>Přední</item>
+    </string-array>
+    <string-array name="pref_camera_type_list_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    
+</resources>

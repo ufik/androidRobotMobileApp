@@ -1,46 +1,28 @@
 package cz.uhk.fim.view;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-import java.util.List;
-
-
-import cz.uhk.fim.MainActivity;
-import cz.uhk.fim.R;
-
+import cz.uhk.fim.activities.AndroidRobotActivity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
 import android.hardware.Camera.Size;
-import android.os.Environment;
 import android.util.Log;
-import android.view.Display;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.WindowManager;
-import android.widget.ImageView;
 
 /** A basic Camera preview class */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-    private static final String TAG = "CAMERA";
+    
+	private static final String TAG = "CAMERA";
 	private SurfaceHolder mHolder;
     private Camera mCamera;
     private Context c;
-    
     private byte[] currentFrame = null;
     
     public CameraPreview(Context context, Camera camera) {
@@ -62,7 +44,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             if(holder != null && mCamera != null) mCamera.setPreviewDisplay(holder);
             
             mCamera.startPreview();
-            Log.d("tag", "start preview");
+            Log.d(TAG, "start preview");
         } catch (IOException e) {
             Log.d(TAG, "Error setting camera preview: " + e.getMessage());
         }
@@ -72,57 +54,35 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // empty. Take care of releasing the Camera preview in your activity.
     }
 
+    /**
+     * When surface is changed this method is invoked.
+     */
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-        // If your preview can change or rotate, take care of those events here.
-        // Make sure to stop the preview before resizing or reformatting it.
-
-        if (holder.getSurface() == null){
-        	mCamera.stopPreview();
-          // preview surface does not exist
-          return;
-        }
 
         // stop preview before making changes
         try {
             mCamera.stopPreview();
         } catch (Exception e){
           // ignore: tried to stop a non-existent preview
+        	e.printStackTrace();
         }
-
-        // set preview size and make any resize, rotate or
-        // reformatting changes here
 
         // start preview with new settings
         try {
         	
         	mCamera.setPreviewDisplay(holder);
+        	mCamera.setDisplayOrientation(90);
         	
-        	Display display = ((WindowManager) c.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        	int rotation = display.getRotation();
-                        
-            int degrees = 0;
-            switch (rotation) {
-                case Surface.ROTATION_0: degrees = 0; break;
-                case Surface.ROTATION_90: degrees = 90; break;
-                case Surface.ROTATION_180: degrees = 180; break;
-                case Surface.ROTATION_270: degrees = 270; break;
-            }
-            
-            if(degrees == 0 || degrees == 180)
-            	mCamera.setDisplayOrientation(90);
-            else
-            	mCamera.setDisplayOrientation(0);
-            
+        	// this method save image frame into variable
             mCamera.setPreviewCallback(new PreviewCallback() {
                 @Override
                 public void onPreviewFrame(byte[] data, Camera camera) {
-                	
                     if(data.length > 0){
                     	currentFrame = data;
                     }
                 }
-
             });
+            
             mCamera.startPreview();
 
         } catch (Exception e){
@@ -130,6 +90,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
     
+    /**
+     * Returns one image frame from camera preview.
+     * @return byteArray image
+     */
     public byte[] getCurrentFrame(){
     	if(this.currentFrame != null){
 	    	
@@ -141,7 +105,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 YuvImage image = new YuvImage(currentFrame, parameters.getPreviewFormat(), size.width, size.height, null); 
     			
                 Matrix mat = new Matrix();
-	        	mat.postRotate(((MainActivity) c).getRotationDegree());
+	        	mat.postRotate(((AndroidRobotActivity) c).getRotationDegree());
 	        	
     			image.compressToJpeg(new Rect(0, 0, image.getWidth(), image.getHeight()), 100, byteStream);
     	        
@@ -152,9 +116,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     			return byteStream2.toByteArray();
 			} catch (Exception e) {
 				// TODO: handle exception
+				Log.d(TAG, "Error while creating image.");
 				e.printStackTrace();
 			}
-    		
     	}
     	
     	return null;
