@@ -7,19 +7,50 @@ import java.net.Socket;
 import java.util.Hashtable;
 import android.util.Log;
 import cz.uhk.fim.activities.AndroidRobotActivity.UIThreadHandler;
-import cz.uhk.fim.nxt.NxtRobot;
 
 /**
+ *   Copyright (C) <2013>  <Tomáš Voslař (t.voslar@gmail.com)>
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
  * Thread for communication with NXT robot. It sends commands via BluetoothSocket.
  * @author Tomáš Voslař
- *
  */
 public class CommandsThread implements Runnable {
-	// TODO refract
+	/**
+	 * Buffered reader for socket. 
+	 */
 	private BufferedReader in;
-	String message = "";
+	
+	/**
+	 * Received message.
+	 */
+	private String message = "";
+	
+	/**
+	 * Handler for communication with main activity.
+	 */
 	private UIThreadHandler mHandler;
+	
+	/**
+	 * Communication socket.
+	 */
 	private Socket mCommunicationSocket;
+	
+	/**
+	 * Defines whether thread is running or not.
+	 */
 	private Boolean isRunning = false;
 	
 	/* Constructor */
@@ -28,12 +59,16 @@ public class CommandsThread implements Runnable {
 		mCommunicationSocket = socket;
 	}
 	
-	/* Terminate thread */
+	/**
+	 *  Terminate thread 
+	 */
 	public void terminate(){
 		isRunning = false;
 	}
 	
-	@Override
+	/**
+	 * Starts thread.
+	 */
 	public void run() {
 		isRunning = true;
 		
@@ -54,37 +89,26 @@ public class CommandsThread implements Runnable {
 			while ((charsRead = in.read(buffer)) != -1 && isRunning) {
 				message = new String(buffer).substring(0, charsRead);
 
-				int command = NxtRobot.STOP; // it means stop
-
 				Hashtable<String, String> tmp = decodeCommand(message);
 
 				if (tmp.containsKey("command")) {
 
-					if (tmp.get("command").equals("command-1")) {
-						command = NxtRobot.FORWARD;
-					} else if (tmp.get("command").equals("command-2")) {
-						command = NxtRobot.BACKWARD;
-					} else if (tmp.get("command").equals("command-3")) {
-						command = NxtRobot.LEFT;
-					} else if (tmp.get("command").equals("command-4")) {
-						command = NxtRobot.RIGHT;
-					} else if (tmp.get("command").equals("command-torch")) {
-						mHandler.tTorch();
-					}
-
-					int speedPercentage = 0;
+					int speed = 0;
+					int steering = 0;
 
 					try {
-						if(tmp.get("speed") != null) speedPercentage = Integer.valueOf(tmp.get("speed").toString());
+						if(tmp.get("speed") != null){
+							speed = Integer.valueOf(tmp.get("speed").toString());
+						}
+						
+						if(tmp.get("steering") != null){
+							steering = Integer.valueOf(tmp.get("steering").toString());
+						}
 					} catch (NumberFormatException e) {
-						// FIXME chtelo by to preskocit do dalsi iterace
 						Log.d("speed", "Error while parsing speed.");
 					}
-					Log.d("INTERNET command", "test");
-					// recalculation of speed
-					float speed = 640f * (Float.valueOf(speedPercentage) / 100);
-
-					mHandler.rCommand(command, (int) speed);
+										
+					mHandler.rCommand(speed, steering);
 				}
 
 			}
@@ -101,9 +125,9 @@ public class CommandsThread implements Runnable {
 	}
 	
 	/**
-	 * 
-	 * @param command
-	 * @return
+	 * Decodes received command and splits it into hashtable.
+	 * @param String command to decode
+	 * @return HashTable decoded and splited command
 	 */
 	private Hashtable<String, String> decodeCommand(String command) {
 
@@ -114,8 +138,11 @@ public class CommandsThread implements Runnable {
 		for (String string : tmp) {
 			if (string.contains("command"))
 				r.put("command", string);
-			else
-				r.put("speed", string);
+			else{
+				String[] tmp2 = string.split("#");
+				r.put("speed", tmp2[0]);
+				if(tmp2.length > 1) r.put("steering", tmp2[1]);
+			}
 		}
 
 		return r;

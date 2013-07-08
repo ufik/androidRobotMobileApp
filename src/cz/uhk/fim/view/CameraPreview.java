@@ -4,8 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import cz.uhk.fim.activities.AndroidRobotActivity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
@@ -16,15 +14,56 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-/** A basic Camera preview class */
+/**
+ *   Copyright (C) <2013>  <Tomáš Voslař (t.voslar@gmail.com)>
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ *  A basic Camera preview class 
+ **/
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     
+	/**
+	 * Tag for logging.
+	 */
 	private static final String TAG = "CAMERA";
+	
+	/**
+	 * Surface holder for preview draw.
+	 */
 	private SurfaceHolder mHolder;
+	
+	/**
+	 * Camera instance holder.
+	 */
     private Camera mCamera;
+    
+    /**
+     * Context of main activity.
+     */
     private Context c;
+    
+    /**
+     * Current image frame.
+     */
     private byte[] currentFrame = null;
     
+    /**
+     * Constructor.
+     * @param context
+     * @param camera
+     */
     public CameraPreview(Context context, Camera camera) {
         super(context);
         mCamera = camera;
@@ -38,6 +77,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         
     }
     
+    /**
+     * Method is fired when surface is created.
+     */
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, now tell the camera where to draw the preview.
         try {
@@ -50,6 +92,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    /**
+     * Method is fired when surface is destroyed.
+     */
     public void surfaceDestroyed(SurfaceHolder holder) {
         // empty. Take care of releasing the Camera preview in your activity.
     }
@@ -98,6 +143,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     	if(this.currentFrame != null){
 	    	
     		try {
+    			//long test = System.currentTimeMillis();
+    			
     			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
     			ByteArrayOutputStream byteStream2 = new ByteArrayOutputStream();
     			Camera.Parameters parameters = mCamera.getParameters(); 
@@ -107,13 +154,16 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 Matrix mat = new Matrix();
 	        	mat.postRotate(((AndroidRobotActivity) c).getRotationDegree());
 	        	
-    			image.compressToJpeg(new Rect(0, 0, image.getWidth(), image.getHeight()), 100, byteStream);
+    			image.compressToJpeg(new Rect(0, 0, image.getWidth(), image.getHeight()), 70, byteStream);
     	        
-    			Bitmap bMap = BitmapFactory.decodeByteArray(byteStream.toByteArray(), 0, byteStream.toByteArray().length);
+    			/*Bitmap bMap = BitmapFactory.decodeByteArray(byteStream.toByteArray(), 0, byteStream.toByteArray().length);
 	        	Bitmap bMapRotate = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(), bMap.getHeight(), mat, true);
-    			bMapRotate.compress(Bitmap.CompressFormat.JPEG, 70, byteStream2);
+    			bMapRotate.compress(Bitmap.CompressFormat.JPEG, 100, byteStream2);*/
 	        	
-    			return byteStream2.toByteArray();
+	        	//long test2 = System.currentTimeMillis();
+	        	
+    			//return test2 - test;
+    			return byteStream.toByteArray();
 			} catch (Exception e) {
 				// TODO: handle exception
 				Log.d(TAG, "Error while creating image.");
@@ -122,7 +172,5 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     	}
     	
     	return null;
-    }
-    
+    }    
 }
-  

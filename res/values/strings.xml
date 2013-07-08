@@ -14,7 +14,11 @@
     
     <string name="loading_bt_discovery_title">Bluetooth</string>
     <string name="loading_bt_discovery_text">Probíhá vyhledávání...</string>
-
+	
+    <string name="desc_compass">Směr pohybu</string>
+    <string name="title_speed">Rychlost</string>
+    <string name="speed">0</string>
+    
     <string name="menu_connect">Připojit</string>
     <string name="menu_disconnect">Odpojit</string>
     <string name="menu_settings">Nastavení</string>

@@ -8,7 +8,7 @@
      </PreferenceCategory>
      
      <PreferenceCategory android:title="@string/title_category_bluetooth">
-         <SwitchPreference android:title="@string/title_auto_connect" android:key="pref_auto_connect" android:summaryOn="@string/title_auto_connect_on" android:summaryOff="@string/title_auto_connect_off" android:switchTextOn="@string/title_auto_connect_icon" android:switchTextOff="@string/title_auto_connect_icon"/>
+         <CheckBoxPreference android:summaryOn="@string/title_auto_connect_on" android:summaryOff="@string/title_auto_connect_off" android:key="pref_autoconnect" android:title="@string/title_auto_connect"/>
          
      </PreferenceCategory>
      

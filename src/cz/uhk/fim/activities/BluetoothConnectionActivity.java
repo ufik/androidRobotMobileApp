@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import cz.uhk.fim.R;
-import cz.uhk.fim.nxt.NxtRobot;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -27,13 +26,28 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 /**
- * TODO documentation
+ *   Copyright (C) <2013>  <Tomáš Voslař (t.voslar@gmail.com)>
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * Bluetooth class for searching near by devices.
  * @author Tomáš Voslař
  */
 public class BluetoothConnectionActivity extends Activity {
 	
 	/**
-	 * Constant for requesting bluetooth connection
+	 * Constant for requesting Bluetooth connection
 	 */
 	private static final int REQUEST_ENABLE_BT = 1;
 	
@@ -43,34 +57,43 @@ public class BluetoothConnectionActivity extends Activity {
 	BluetoothAdapter mBluetoothAdapter;
 	
 	/**
-	 * 
+	 * Holds founded devices.
 	 */
-	ArrayAdapter mBluetoothDevices;
+	ArrayAdapter<String> mBluetoothDevices;
 	
-	/**
-	 * 
+	/** 
+	 * Broadcast receiver for device searching.
 	 */
 	BroadcastReceiver mReceiver;
 	
 	/**
-	 * 
+	 * List view for names of founded devices.
 	 */
 	ListView lv;
 	
 	/**
-	 * 
+	 * Shows whether is broadcast receiver registered.
 	 */
 	Boolean btReceiverRegistered = false;
 	
 	/**
-	 * 
+	 * Holds names of founded devices.
 	 */
 	List<BluetoothDevice> devices = new ArrayList<BluetoothDevice>();
 	
+	/**
+	 * Initialize progress dialog.
+	 */
 	ProgressDialog pd;
 
+	/**
+	 * Shared preferences of application.
+	 */
 	private SharedPreferences prefs;
 
+	/**
+	 * Define whether is auto connect enabled.
+	 */
 	private Boolean autoConnect;
 	
     /** Called when the activity is first created. */
@@ -98,14 +121,13 @@ public class BluetoothConnectionActivity extends Activity {
             	pd = ProgressDialog.show(BluetoothConnectionActivity.this, getString(R.string.loading_bt_discovery_title), getString(R.string.loading_bt_discovery_text));
             }
             	
-            // check whether bluetooth is enabled otherwise we enable it
-             if (!mBluetoothAdapter.isEnabled()) {
-                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                 startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-                 
-             }
+            //check whether bluetooth is enabled otherwise we enable it
+	        if (!mBluetoothAdapter.isEnabled()) {
+		        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+		        startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+	             
+	        }
         }
-        
 
         Button btn = (Button) findViewById(R.id.search);
         btn.setOnClickListener(new OnClickListener() {
@@ -125,7 +147,6 @@ public class BluetoothConnectionActivity extends Activity {
 				mBluetoothAdapter.cancelDiscovery();
 				
 				// create connection with device
-				
 				String device = mBluetoothDevices.getItem(index).toString();
 				
 				BluetoothDevice finalDevice = null;
@@ -146,7 +167,7 @@ public class BluetoothConnectionActivity extends Activity {
 					finish();
 				
 				}else{
-					Toast t = Toast.makeText(BluetoothConnectionActivity.this, "chyba", 1000);
+					Toast t = Toast.makeText(BluetoothConnectionActivity.this, "chyba", Toast.LENGTH_LONG);
 					t.show();
 				}
 				
@@ -164,11 +185,17 @@ public class BluetoothConnectionActivity extends Activity {
 		
 	}
     
+	/**
+	 * Starts discovery of Bluetooth devices.
+	 */
     private void startBtLookup(){
     	mBluetoothDevices.clear();
     	mBluetoothAdapter.startDiscovery();
     }
     
+    /**
+     * Unregister receiver when activity is destroyed.
+     */
     public void onDestroy(){
     	super.onDestroy();
     	
@@ -178,6 +205,9 @@ public class BluetoothConnectionActivity extends Activity {
     	}
     }
     
+    /**
+     * Unregister receiver when activity is paused.
+     */
     public void onPause(){
     	super.onPause();
     	
@@ -187,6 +217,9 @@ public class BluetoothConnectionActivity extends Activity {
     	}
     }
  
+    /**
+     * Register receiver when activity is active.
+     */
     public void onResume(){
     	super.onResume();
     	
@@ -194,23 +227,20 @@ public class BluetoothConnectionActivity extends Activity {
     }
     
     /**
-     * 
+     * Method called when request result is received.
      * @param requestCode
      */
     private void onActivityResult(int requestCode){
     	
-    	// bluetooth has been enabled
+    	// Bluetooth has been enabled
     	if(requestCode == REQUEST_ENABLE_BT){
     		getDevices();
-    		
-    	}
-
-    	// bluetooth has not been enabled
-    	else if(requestCode == RESULT_CANCELED){
-    		
     	}
     }
     
+    /**
+     * Register Bluetooth lookup for devices.
+     */
     private void registerBtLookup(){
     	// Create a BroadcastReceiver for ACTION_FOUND
         mReceiver = new BroadcastReceiver() {
@@ -250,10 +280,16 @@ public class BluetoothConnectionActivity extends Activity {
         btReceiverRegistered = true;
     }
     
+    /**
+     * Refresh list view with devices names.
+     */
     private void refreshDeviceList(){
     	mBluetoothDevices.notifyDataSetChanged();
     }
     
+    /**
+     * Get bounded devices and refreshs list view.
+     */
     private void getDevices(){
     	
     	mBluetoothDevices.clear();
